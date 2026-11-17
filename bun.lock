@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "react-example",
+      "name": "tracemind-ai",
       "dependencies": {
         "@google/genai": "^3.4.0",
         "@tailwindcss/vite": "^4.3.3",
