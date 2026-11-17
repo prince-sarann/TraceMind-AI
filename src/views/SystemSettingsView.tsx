@@ -38,6 +38,8 @@ export function SystemSettingsView({
   };
 
   const handleReset = async () => {
+    const confirmed = window.confirm('Reset the workspace to the original synthetic dataset? This clears imported logs, incident statuses, and analyst notes.');
+    if (!confirmed) return;
     setSaving(true);
     setStatusMsg(null);
     setErrorMsg(null);
