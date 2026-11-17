@@ -6,10 +6,12 @@ import { KpiCard, SectionHeader, SocCard } from '../components/SocUi';
 
 export function OverviewView({
   snapshot,
+  analystName,
   onSelectIncident,
   onNavigate,
 }: {
   snapshot: WorkspaceSnapshot;
+  analystName: string;
   onSelectIncident: (inc: Incident) => void;
   onNavigate: (page: string) => void;
 }) {
@@ -32,7 +34,7 @@ export function OverviewView({
             Security Overview
           </h2>
           <span className="text-xs text-slate-500">
-            Lead SOC Analyst: <span className="text-slate-300 font-medium">Prince Kumar Saran</span>
+            Active Analyst: <span className="text-slate-300 font-medium">{analystName}</span>
           </span>
         </div>
 
