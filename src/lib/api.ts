@@ -150,11 +150,15 @@ function downloadBlob(content: string, filename: string, mimeType: string): void
 }
 
 function csvEscape(val: unknown): string {
-  const s = String(val ?? '');
-  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
-    return `"${s.replace(/"/g, '""')}"`;
+  let value = String(val ?? '');
+  // Prefix spreadsheet formula initiators so untrusted log fields open as text.
+  if (/^[\\s\\u0000-\\u001f]*[=+@-]/.test(value)) {
+    value = `'${value}`;
   }
-  return s;
+  if (/[",\\r\\n]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
 }
 
 export function exportEventsCsv(events: SecurityLogEvent[]): void {
