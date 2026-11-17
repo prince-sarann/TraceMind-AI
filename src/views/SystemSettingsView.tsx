@@ -86,10 +86,10 @@ export function SystemSettingsView({
       <SocCard className="space-y-4">
         <div>
           <h2 className="text-sm font-semibold text-slate-100">
-            Analyst Session & Role-Based Access Control (RBAC)
+            Demo Analyst Session & Role Simulation
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Backend API routes enforce role permissions: Read-Only Auditor cannot mutate incidents or ingest logs; only Lead SOC Analyst may alter detection parameters.
+            This is a learning/demo role selector, not real authentication. The API trusts client-supplied role headers, so users can change them. Never rely on these demo roles to protect real data or a public deployment.
           </p>
         </div>
 
@@ -104,7 +104,7 @@ export function SystemSettingsView({
             />
           </div>
           <div>
-            <label className="block text-xs text-slate-400 mb-1">Assigned RBAC Role</label>
+            <label className="block text-xs text-slate-400 mb-1">Simulated Analyst Role</label>
             <select
               value={identity.role}
               onChange={(e) =>
@@ -112,9 +112,9 @@ export function SystemSettingsView({
               }
               className="w-full min-h-[40px] bg-[#090D16] border border-slate-800 rounded px-3 py-2 text-xs text-slate-100"
             >
-              <option value="Lead SOC Analyst">Lead SOC Analyst (Full Admin)</option>
-              <option value="Tier-2 Responder">Tier-2 Responder (Triage & Ingest)</option>
-              <option value="Read-Only Auditor">Read-Only Auditor (View & Export)</option>
+              <option value="Lead SOC Analyst">Lead SOC Analyst (Demo permissions)</option>
+              <option value="Tier-2 Responder">Tier-2 Responder (Demo permissions)</option>
+              <option value="Read-Only Auditor">Read-Only Auditor (Demo permissions)</option>
             </select>
           </div>
         </div>
