@@ -39,6 +39,7 @@ export function IncidentInvestigationView({
   const [statusFilter, setStatusFilter] = useState<'All' | IncidentStatus>('All');
   const [noteInput, setNoteInput] = useState('');
   const [saving, setSaving] = useState(false);
+  const [noteError, setNoteError] = useState<string | null>(null);
 
   const visibleIncidents = incidents.filter(
     (i) => statusFilter === 'All' || i.status === statusFilter,
@@ -64,9 +65,12 @@ export function IncidentInvestigationView({
     e.preventDefault();
     if (!selected || !noteInput.trim()) return;
     setSaving(true);
+    setNoteError(null);
     try {
       await onAddNote(selected.id, noteInput.trim());
       setNoteInput('');
+    } catch (err) {
+      setNoteError(err instanceof Error ? err.message : 'Failed to save investigation note.');
     } finally {
       setSaving(false);
     }
@@ -339,6 +343,8 @@ export function IncidentInvestigationView({
                   <span>Add Note</span>
                 </button>
               </form>
+
+              {noteError && <div role="alert" className="text-xs text-red-400">{noteError}</div>}
 
               {selected.notes.length > 0 && (
                 <div className="space-y-2.5">
