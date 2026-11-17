@@ -104,7 +104,7 @@ Keep real credentials in your local `.env` file or your deployment platform's se
 bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser. On first launch, the app creates its local SQLite database and seeds it from the synthetic dataset in `server/data/`; the generated database is intentionally not tracked in Git.
 
 ## Available scripts
 
@@ -134,7 +134,11 @@ TraceMind-AI/
 │   └── routes/         # API endpoints
 ├── shared/             # Shared TypeScript types
 ├── tests/              # Automated tests
+├── .github/workflows/  # Automated CI checks
 ├── .env.example        # Environment variable template
+├── CONTRIBUTING.md     # Contribution guidelines
+├── LICENSE             # Apache License 2.0
+├── SECURITY.md         # Security policy and safe-use guidance
 ├── server.ts           # Application server entry point
 └── package.json        # Dependencies and scripts
 ```
