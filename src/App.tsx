@@ -179,6 +179,7 @@ export default function App() {
       setSnapshot(next);
     } catch (err) {
       setActionError(err instanceof Error ? err.message : 'Failed to save note.');
+      throw err;
     }
   };
 
