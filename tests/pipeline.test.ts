@@ -9,7 +9,7 @@ import { parseAndNormalizeLogs } from '../server/engine/ingestion';
 import { runIsolationForestDetection } from '../server/engine/isolationForest';
 import { runAnalysisPipeline } from '../server/pipeline';
 
-describe('TraceMind X Backend Pipeline', () => {
+describe('TraceMind AI Backend Pipeline', () => {
   it('validates, normalizes, and deduplicates CSV security logs', () => {
     const csvWithInvalidRow = `${SAMPLE_CSV_PAYLOAD}
 bad-timestamp,999.999.999.999,,login_failed,ssh-bastion-01,401,512`;
