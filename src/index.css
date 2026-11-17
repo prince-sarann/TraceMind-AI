@@ -10,11 +10,40 @@
   }
 
   html,
+  body,
+  #root {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  html,
   body {
     font-family: var(--font-sans);
     background-color: #090D16;
     color: #E2E8F0;
     overflow-x: hidden;
+  }
+
+  body {
+    min-width: 320px;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+
+  .overflow-x-auto {
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  pre,
+  code {
+    overflow-wrap: anywhere;
   }
 
   h1, h2, h3, h4, .font-display {
@@ -57,4 +86,16 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
