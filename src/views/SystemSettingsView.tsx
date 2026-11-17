@@ -59,10 +59,10 @@ export function SystemSettingsView({
           <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
           <div className="min-w-0">
             <h2 className="text-sm sm:text-base font-semibold text-slate-100">
-              About TraceMind AI / TraceMind X
+              About TraceMind AI
             </h2>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              TraceMind X is an AI-powered Cyber Threat Intelligence and Security Incident Investigation Platform designed for automated log normalization, rule-based MITRE ATT&CK threat detection, Isolation Forest behavioural anomaly isolation, graph correlation, explainable risk scoring, and evidence-grounded Gemini investigation.
+              TraceMind AI is an AI-powered Cyber Threat Intelligence and Security Incident Investigation Platform designed for automated log normalization, rule-based MITRE ATT&CK threat detection, Isolation Forest behavioural anomaly isolation, graph correlation, explainable risk scoring, and evidence-grounded Gemini investigation.
             </p>
             <div className="mt-3 pt-3 border-t border-slate-800/80 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div>
