@@ -81,7 +81,7 @@ export async function generateIncidentInvestigationBrief(
     config: {
       thinkingConfig: { thinkingLevel: ThinkingLevel.MEDIUM },
       systemInstruction:
-        'You are a Principal SOC Analyst and Incident Responder inside TraceMind X. ' +
+        'You are a Principal SOC Analyst and Incident Responder inside TraceMind AI. ' +
         'Strictly ground every factual claim in the provided JSON telemetry (cite exact event IDs, timestamps, IPs, usernames, hosts, and rule IDs). ' +
         'NEVER fabricate events, IP addresses, hashes, or indicators not present in the telemetry. ' +
         'Explicitly separate verified log evidence from unverified hypotheses (things requiring further endpoint/SIEM validation). Keep all bullets crisp, concise, and actionable.',
@@ -184,7 +184,7 @@ export async function askInvestigationCopilot(
     config: {
       thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
       systemInstruction:
-        'You are TraceMind X AI Investigation Assistant. Answer the SOC analyst question strictly using the provided security telemetry. ' +
+        'You are TraceMind AI AI Investigation Assistant. Answer the SOC analyst question strictly using the provided security telemetry. ' +
         'Cite exact event IDs, timestamps, IP addresses, and usernames. ' +
         'If the telemetry does not contain enough evidence to answer a point definitively, state clearly what is verified vs. what requires additional log sources (e.g. EDR, DNS, proxy logs).',
     },
