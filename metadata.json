@@ -1,0 +1,6 @@
+{
+  "name": "TraceMind X",
+  "description": "AI-powered Cyber Threat Intelligence and Security Incident Investigation Platform with log ingestion, rule-based threat detection, graph event correlation, Isolation Forest anomaly detection, explainable risk scoring, and Gemini-assisted investigation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
