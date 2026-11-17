@@ -192,7 +192,7 @@ export function exportEventsCsv(events: SecurityLogEvent[]): void {
       .map(csvEscape)
       .join(','),
   );
-  downloadBlob([headers.join(','), ...rows].join('\n'), 'tracemind-x-events.csv', 'text/csv');
+  downloadBlob([headers.join(','), ...rows].join('\n'), 'tracemind-ai-events.csv', 'text/csv');
 }
 
 export function exportIncidentsCsv(incidents: Incident[]): void {
@@ -232,7 +232,7 @@ export function exportIncidentsCsv(incidents: Incident[]): void {
   );
   downloadBlob(
     [headers.join(','), ...rows].join('\n'),
-    'tracemind-x-incidents.csv',
+    'tracemind-ai-incidents.csv',
     'text/csv',
   );
 }
@@ -252,7 +252,7 @@ export function exportIncidentPdf(incident: Incident, events: SecurityLogEvent[]
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
-  doc.text(`TraceMind X — Security Incident Investigation Report`, margin, y);
+  doc.text(`TraceMind AI — Security Incident Investigation Report`, margin, y);
   y += 22;
 
   doc.setFont('helvetica', 'normal');
