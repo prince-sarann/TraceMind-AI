@@ -14,7 +14,8 @@ async function startServer() {
   if (process.env.NODE_ENV === 'production') {
     const distDir = path.resolve(process.cwd(), 'dist');
     app.use(express.static(distDir));
-    app.get('/{*splat}', (_req, res) => {
+    // Express 4 uses '*' for a catch-all route; '/{*splat}' is Express 5 syntax.
+    app.get('*', (_req, res) => {
       res.sendFile(path.join(distDir, 'index.html'));
     });
   } else {
