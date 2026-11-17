@@ -24,7 +24,20 @@ export function SystemSettingsView({
 
   useEffect(() => {
     setForm(settings);
-  }, [settings]);
+  }, [
+    settings.bruteForceThreshold,
+    settings.bruteForceWindowMin,
+    settings.sprayAccountThreshold,
+    settings.offHoursStartUtc,
+    settings.offHoursEndUtc,
+    settings.anomalyScoreThreshold,
+    settings.nEstimators,
+    settings.riskWeights.severity,
+    settings.riskWeights.frequency,
+    settings.riskWeights.blastRadius,
+    settings.riskWeights.sourceReputation,
+    settings.riskWeights.correlationAndMl,
+  ]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
