@@ -24,6 +24,17 @@ bad-timestamp,999.999.999.999,,login_failed,ssh-bastion-01,401,512`;
     expect(secondPass.summary.duplicateCount).toBe(8);
   });
 
+  it('rejects malformed timestamps, invalid addresses, and unsupported event types', () => {
+    const payload = JSON.stringify([
+      { timestamp: 'not-a-date', ip: '203.0.113.10', user: 'alice', action: 'login_failed' },
+      { timestamp: '2026-11-16T04:01:00Z', ip: '999.1.1.1', user: 'bob', action: 'login_failed' },
+      { timestamp: '2026-11-16T04:02:00Z', ip: '203.0.113.11', user: 'carol', action: 'unknown_action' },
+    ]);
+    const result = parseAndNormalizeLogs(payload, 'json', 'invalid-records.json');
+    expect(result.events).toHaveLength(0);
+    expect(result.summary.rejectedCount).toBe(3);
+  });
+
   it('normalizes JSON and NDJSON logs and enforces IPv4/IPv6 validation', () => {
     const jsonPayload = JSON.stringify([
       {
