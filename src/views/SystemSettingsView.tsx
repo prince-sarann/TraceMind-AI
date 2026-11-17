@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RotateCcw, Save, ShieldCheck } from 'lucide-react';
 import type { AnalystRole, PipelineSettings } from '../../shared/types';
 import { SocCard } from '../components/SocUi';
@@ -21,6 +21,10 @@ export function SystemSettingsView({
   const [saving, setSaving] = useState(false);
   const [statusMsg, setStatusMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    setForm(settings);
+  }, [settings]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
