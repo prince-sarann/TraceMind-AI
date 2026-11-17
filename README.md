@@ -65,8 +65,8 @@ CSV / JSON / synthetic security events
 
 ### Prerequisites
 
-- Node.js version supported by the Vite version used in this project
-- npm
+- Node.js 22.12 or newer
+- [Bun](https://bun.sh/) (the repository includes a Bun lockfile)
 - A Google Gemini API key for AI-assisted features
 
 ### 1. Clone the repository
@@ -79,7 +79,7 @@ cd TraceMind-AI
 ### 2. Install dependencies
 
 ```bash
-npm install
+bun install --frozen-lockfile
 ```
 
 ### 3. Configure environment variables
@@ -101,7 +101,7 @@ Keep real credentials in your local `.env` file or your deployment platform's se
 ### 4. Start the development server
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
@@ -110,12 +110,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the Express server with Vite development middleware |
-| `npm run build` | Build the frontend for production |
-| `npm run preview` | Preview the Vite production build |
-| `npm run lint` | Run the TypeScript type check |
-| `npm test` | Run the automated test suite |
-| `npm start` | Start the application server |
+| `bun run dev` | Start the Express server with Vite development middleware |
+| `bun run build` | Build the frontend for production |
+| `bun run preview` | Preview the Vite production build |
+| `bun run lint` | Run the TypeScript type check |
+| `bun run test` | Run the automated test suite |
+| `bun run start` | Start the application server |
 
 ## Project structure
 
