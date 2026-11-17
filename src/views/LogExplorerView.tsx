@@ -95,10 +95,14 @@ export function LogExplorerView({
 
   const handleLoadSample = async () => {
     setIngestError(null);
-    const csv = await fetchSampleCsv();
-    setIngestFormat('csv');
-    setIngestSource('ssh-bastion-attack-sample.csv');
-    setIngestContent(csv);
+    try {
+      const csv = await fetchSampleCsv();
+      setIngestFormat('csv');
+      setIngestSource('ssh-bastion-attack-sample.csv');
+      setIngestContent(csv);
+    } catch (err) {
+      setIngestError(err instanceof Error ? err.message : 'Unable to load the sample log file.');
+    }
   };
 
   const handleSubmitIngest = async () => {
