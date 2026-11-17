@@ -152,9 +152,21 @@ TraceMind-AI/
 
 TraceMind AI is a learning and portfolio project, not a production SIEM or a replacement for an organization's incident-response process. Detection quality depends on input data, configured rules, and model assumptions. AI output can be incomplete or incorrect and must be reviewed by a human analyst.
 
+## Quality checks
+
+A GitHub Actions workflow runs the TypeScript check, automated tests, and production build on pushes and pull requests targeting `main`.
+
+## Security
+
+Read [SECURITY.md](SECURITY.md) before testing or deploying the project. Analyst roles in this educational build are simulated through client-provided headers; they are not real authentication or authorization.
+
 ## Contributing
 
 Contributions, bug reports, and suggestions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## Author
 
