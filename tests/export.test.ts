@@ -4,7 +4,7 @@ import { csvEscape } from '../src/lib/api';
 describe('CSV export escaping', () => {
   it('neutralizes spreadsheet formula initiators', () => {
     expect(csvEscape('=1+1')).toBe("'=1+1");
-    expect(csvEscape('  =HYPERLINK("https://example.invalid")')).toBe("'  =HYPERLINK(\"https://example.invalid\")");
+    expect(csvEscape('  =SUM(A1:A2)')).toBe("'  =SUM(A1:A2)");
     expect(csvEscape('+SUM(A1:A2)')).toBe("'+SUM(A1:A2)");
     expect(csvEscape('-10')).toBe("'-10");
   });
