@@ -149,7 +149,7 @@ function downloadBlob(content: string, filename: string, mimeType: string): void
   window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-function csvEscape(val: unknown): string {
+export function csvEscape(val: unknown): string {
   let value = String(val ?? '');
   // Prefix spreadsheet formula initiators so untrusted log fields open as text.
   if (/^[\s\u0000-\u001f]*[=+@-]/.test(value)) {
