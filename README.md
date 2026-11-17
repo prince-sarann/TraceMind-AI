@@ -61,6 +61,11 @@ CSV / JSON / synthetic security events
         SOC investigation UI
 ```
 
+## Documentation
+
+- [Analyst User Guide](docs/USER_GUIDE.md) — run the app and practise an end-to-end SOC investigation.
+- [Manual QA Checklist](docs/QA_CHECKLIST.md) — responsive layout, feature, and security checks.
+
 ## Getting started
 
 ### Prerequisites
