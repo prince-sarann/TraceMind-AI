@@ -152,11 +152,11 @@ function downloadBlob(content: string, filename: string, mimeType: string): void
 function csvEscape(val: unknown): string {
   let value = String(val ?? '');
   // Prefix spreadsheet formula initiators so untrusted log fields open as text.
-  if (/^[\\s\\u0000-\\u001f]*[=+@-]/.test(value)) {
-    value = `'${value}`;
+  if (/^[\s\u0000-\u001f]*[=+@-]/.test(value)) {
+    value = \`'\${value}\`;
   }
-  if (/[",\\r\\n]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
+  if (/[",\r\n]/.test(value)) {
+    return \`"\${value.replace(/"/g, '""')}"\`;
   }
   return value;
 }
