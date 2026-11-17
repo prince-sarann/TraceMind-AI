@@ -27,6 +27,9 @@ export function OverviewView({
 
   return (
     <div className="space-y-6">
+      <div role="note" className="rounded-md border border-amber-900/50 bg-amber-950/20 px-3 py-2 text-xs text-amber-200">
+        Demo environment: synthetic security events only. This workspace is not connected to live telemetry.
+      </div>
       {/* Section 1: Security Overview */}
       <div>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
@@ -60,10 +63,10 @@ export function OverviewView({
             valueColor="text-cyan-400"
           />
           <KpiCard
-            label="Isolation Forest ROC-AUC"
+            label="Synthetic Model ROC-AUC"
             value={modelEvaluation.rocAucEstimate.toFixed(2)}
             subvalue={`F1 ${modelEvaluation.f1Score.toFixed(2)}`}
-            caption={`${modelEvaluation.benignAnomaliesIsolated} benign outlier(s) separated from threats`}
+            caption={`Estimated on synthetic labels · ${modelEvaluation.benignAnomaliesIsolated} benign outlier(s) separated`}
             valueColor="text-blue-400"
           />
         </div>
