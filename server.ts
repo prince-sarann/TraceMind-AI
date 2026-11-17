@@ -26,11 +26,11 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`TraceMind X SOC server listening on http://localhost:${PORT}`);
+    console.log(`TraceMind AI server listening on http://localhost:${PORT}`);
   });
 }
 
 startServer().catch((err) => {
-  console.error('Failed to start TraceMind X server:', err);
+  console.error('Failed to start TraceMind AI server:', err);
   process.exit(1);
 });
