@@ -1,36 +1,167 @@
-# TraceMind X
+# TraceMind AI
 
-**AI-Powered Cyber Threat Intelligence & Security Incident Investigation Platform**
+**AI-assisted security incident investigation platform for SOC workflows.**
 
-TraceMind X is a modular Security Operations Center (SOC) investigation platform that ingests and normalizes security logs, detects rule-based threats, correlates multi-stage attack chains using graph algorithms, isolates behavioural outliers via an Isolation Forest ML model, computes explainable risk scores, and delivers evidence-grounded investigation briefings.
+TraceMind AI is a modular Security Operations Center (SOC) investigation workspace. It brings security-log ingestion, threat detection, event correlation, anomaly analysis, explainable risk scoring, attack timelines, and AI-assisted investigation into one dashboard.
+
+Built as a portfolio and learning project by **Prince Kumar Saran**.
+
+> **Project status:** Educational / portfolio project. The repository includes synthetic sample data. Detection results and AI-generated explanations are decision-support signals—not proof of compromise. Always validate findings against original evidence.
+
+## Highlights
+
+- **Log ingestion and normalization** — accepts CSV and JSON/NDJSON event data, validates records, normalizes fields, and reports rejected rows.
+- **Rule-based threat detection** — identifies suspicious patterns such as repeated authentication failures, password spraying, unusual privileged access, and related event sequences.
+- **Anomaly analysis** — uses an Isolation Forest-style model to highlight unusual behaviour and keeps unconfirmed anomalies distinct from confirmed malicious activity.
+- **Event correlation** — connects related users, hosts, IP addresses, and events to help analysts investigate possible attack chains.
+- **Explainable risk scoring** — provides a risk score with contributing factors rather than relying on an unexplained label.
+- **Attack timelines and investigation stories** — organizes observed events chronologically to support incident review.
+- **AI investigation assistant** — uses the Google Gemini API for evidence-oriented summaries and investigation assistance.
+- **Incident workflow and reporting** — supports case information, analyst notes, audit history, exports, and reports.
+
+## Technology
+
+| Area | Technologies |
+| --- | --- |
+| Frontend | React, TypeScript, Vite |
+| Backend | Node.js, Express |
+| Data storage | SQLite via sql.js |
+| AI integration | Google Gemini API (@google/genai) |
+| Visualization | Chart and network-graph components |
+| Testing | Vitest, TypeScript |
 
 ## Architecture
 
+```text
+CSV / JSON / synthetic security events
+                |
+                v
+       Ingestion & normalization
+                |
+        +-------+--------+
+        |                |
+        v                v
+ Rule-based detection  Anomaly analysis
+        |                |
+        +-------+--------+
+                |
+                v
+       Event correlation
+                |
+                v
+       Risk scoring & timeline
+                |
+                v
+        SQLite persistence
+                |
+                v
+      Express API + Gemini AI
+                |
+                v
+        SOC investigation UI
 ```
-Security Log Sources (CSV / JSON / Synthetic Corpus)
-  └─▶ Log Ingestion & Normalization (validation, deduplication, timestamp/IP normalization)
-        ├─▶ Rule-Based Threat Detection Engine (MITRE ATT&CK rules R-001..R-006)
-        └─▶ Isolation Forest ML Engine (7 behavioural features, z-score explainability, ROC-AUC/F1)
-              └─▶ Graph Event Correlation Engine (BFS connected components, degree centrality)
-                    └─▶ Explainable Risk Scoring & Attack Story Builder
-                          └─▶ SQLite Persistence (parameterized SQL + audit log)
-                                └─▶ Express REST API + Gemini Investigation Assistant
-                                      └─▶ Interactive Enterprise SOC Dashboard (9 Views)
+
+## Getting started
+
+### Prerequisites
+
+- Node.js version supported by the Vite version used in this project
+- npm
+- A Google Gemini API key for AI-assisted features
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/prince-sarann/TraceMind-AI.git
+cd TraceMind-AI
 ```
 
-## Core Capabilities
+### 2. Install dependencies
 
-- **Intelligent Log Ingestion**: Validates `.csv` and `.json`/NDJSON payloads (max 5 MB), normalizes timestamps and event schemas, validates IPv4/IPv6 addresses, deduplicates via SHA-256 fingerprints, and reports rejected lines.
-- **Threat Detection Engine**: Configurable detection for brute-force bursts, credential compromise after failures, multi-account password spraying, off-hours privileged access, impossible travel geolocation hops, and privilege escalation + data exfiltration chains.
-- **Isolation Forest ML Anomaly Detection**: Subsampled binary space partitioning ensemble computing anomaly scores $s(x, n)$, model evaluation metrics (Precision, Recall, F1, ROC-AUC, Confusion Matrix), and explicit separation between *Behavioural Anomaly (Unconfirmed)* and *Confirmed Malicious*.
-- **Graph Correlation & Relationship Explorer**: BFS connected components and interactive pan/zoom network graph linking IPs, accounts, hosts, milestone events, and incidents.
-- **Explainable Risk Scoring & Attack Story Builder**: Transparent weighted 0–100 scoring across 5 dimensions and chronological attack timelines grounded strictly in observed events.
-- **Evidence-Grounded AI Investigation Assistant**: Server-side `@google/genai` (`gemini-4-hydrogen`) briefings and interactive Q&A citing exact event IDs and separating verified evidence from unverified hypotheses.
-- **Incident Management & Reporting**: Persistent SQLite case status, analyst assignment, notes, security audit log, CSV exports, and formatted PDF incident reports.
+```bash
+npm install
+```
 
-## Commands
+### 3. Configure environment variables
 
-- **Start development server**: `npm run dev`
-- **Build production bundle**: `npm run build`
-- **Typecheck**: `npm run lint`
-- **Run test suite**: `npm test`
+Create a local environment file from the example:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and add your own Gemini API key:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Keep real credentials in your local `.env` file or your deployment platform's secret manager. **Never commit API keys, tokens, passwords, or production data.** The `.env.example` file contains placeholders only.
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Available scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Express server with Vite development middleware |
+| `npm run build` | Build the frontend for production |
+| `npm run preview` | Preview the Vite production build |
+| `npm run lint` | Run the TypeScript type check |
+| `npm test` | Run the automated test suite |
+| `npm start` | Start the application server |
+
+## Project structure
+
+```text
+TraceMind-AI/
+├── src/
+│   ├── components/     # Reusable UI, charts, and SOC components
+│   ├── lib/            # Frontend API helpers
+│   ├── views/          # Dashboard and investigation screens
+│   ├── App.tsx         # Main application component
+│   └── index.css       # Global styles
+├── server/
+│   ├── data/           # Synthetic sample dataset
+│   ├── db/             # Database access and persistence
+│   ├── engine/         # Detection, correlation, scoring, and analysis
+│   └── routes/         # API endpoints
+├── shared/             # Shared TypeScript types
+├── tests/              # Automated tests
+├── .env.example        # Environment variable template
+├── server.ts           # Application server entry point
+└── package.json        # Dependencies and scripts
+```
+
+## Security and data handling
+
+- Use synthetic or properly anonymized events for demonstrations.
+- Do not upload real customer logs, credentials, personal information, or production incident data.
+- Keep `.env` and all secret-bearing files out of version control.
+- Treat AI-generated summaries and anomaly scores as analyst assistance; verify them against source events.
+- Report suspected security issues privately to the repository owner rather than posting sensitive details in a public issue.
+
+## Limitations
+
+TraceMind AI is a learning and portfolio project, not a production SIEM or a replacement for an organization's incident-response process. Detection quality depends on input data, configured rules, and model assumptions. AI output can be incomplete or incorrect and must be reviewed by a human analyst.
+
+## Contributing
+
+Contributions, bug reports, and suggestions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## Author
+
+**Prince Kumar Saran**  
+Creator and developer of TraceMind AI.
+
+- GitHub: [@prince-sarann](https://github.com/prince-sarann)
+
+---
+
+If you find the project useful, consider giving the repository a ⭐.

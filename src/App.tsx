@@ -116,7 +116,7 @@ export default function App() {
       setSnapshot(data);
       setSelectedIncidentId((prev) => prev ?? data.incidents[0]?.id ?? null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unable to reach TraceMind X backend.');
+      setError(err instanceof Error ? err.message : 'Unable to reach TraceMind AI backend.');
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -257,7 +257,7 @@ export default function App() {
         <div className="h-14 px-4 border-b border-slate-800/90 flex items-center justify-between gap-2">
           {!sidebarCollapsed && (
             <span className="font-display text-base font-bold tracking-tight text-slate-100 whitespace-nowrap">
-              TraceMind X
+              TraceMind AI
             </span>
           )}
           <button
@@ -289,7 +289,7 @@ export default function App() {
           <aside className="relative z-10 w-72 max-w-[85vw] bg-[#0B1120] border-r border-slate-800 flex flex-col h-full">
             <div className="h-14 px-4 border-b border-slate-800 flex items-center justify-between">
               <span className="font-display text-base font-bold tracking-tight text-slate-100">
-                TraceMind X
+                TraceMind AI
               </span>
               <button
                 type="button"
@@ -469,7 +469,7 @@ export default function App() {
 
         {/* Quiet Enterprise Attribution Footer */}
         <footer className="px-3 sm:px-6 py-3 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <span>TraceMind X · Cyber Threat Intelligence & Incident Investigation</span>
+          <span>TraceMind AI · Cyber Threat Intelligence & Incident Investigation</span>
           <span>
             Lead SOC Analyst: <span className="text-slate-300 font-medium">{identity.name}</span>
           </span>
