@@ -400,6 +400,7 @@ export default function App() {
               {activePage === 'overview' && (
                 <OverviewView
                   snapshot={snapshot}
+                  analystName={identity.name}
                   onSelectIncident={handleSelectIncident}
                   onNavigate={(p) => handleNavigate(p as PageId)}
                 />
