@@ -146,10 +146,15 @@ export default function App() {
     sourceName: string;
   }) => {
     setActionError(null);
-    const next = await ingestLogs(payload, identity);
-    setSnapshot(next);
-    if (next.incidents[0]) {
-      setSelectedIncidentId(next.incidents[0].id);
+    setRefreshing(true);
+    try {
+      const updated = await ingestLogs(payload, identity);
+      setSnapshot(updated);
+      if (updated.incidents[0]) {
+        setSelectedIncidentId(updated.incidents[0].id);
+      }
+    } finally {
+      setRefreshing(false);
     }
   };
 
