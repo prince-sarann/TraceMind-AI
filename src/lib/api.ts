@@ -146,7 +146,7 @@ function downloadBlob(content: string, filename: string, mimeType: string): void
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 function csvEscape(val: unknown): string {
