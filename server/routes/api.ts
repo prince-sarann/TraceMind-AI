@@ -29,6 +29,11 @@ function requireWritePermission(role: AnalystRole, res: Response): boolean {
   return true;
 }
 
+function boundedNumber(value: unknown, fallback: number, min: number, max: number): number {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? Math.max(min, Math.min(max, parsed)) : fallback;
+}
+
 async function ensureSeeded(): Promise<void> {
   const count = await db.getEventCount();
   if (count === 0) {
@@ -83,8 +88,12 @@ apiRouter.post('/logs/ingest', async (req: Request, res: Response) => {
       sourceName?: string;
     };
 
-    if (!content || typeof content !== 'string') {
+    if (typeof content !== 'string' || !content.trim()) {
       res.status(400).json({ error: 'Missing raw log content payload.' });
+      return;
+    }
+    if (Buffer.byteLength(content, 'utf8') > 5 * 1024 * 1024) {
+      res.status(413).json({ error: 'Log payload exceeds the 5 MB upload limit.' });
       return;
     }
     if (format !== 'csv' && format !== 'json') {
@@ -96,7 +105,7 @@ apiRouter.post('/logs/ingest', async (req: Request, res: Response) => {
     const { events, summary } = parseAndNormalizeLogs(
       content,
       format,
-      sourceName || `upload.${format}`,
+      typeof sourceName === 'string' ? sourceName.trim().slice(0, 80) || `upload.${format}` : `upload.${format}`,
       existingFps,
     );
 
@@ -166,6 +175,12 @@ apiRouter.patch('/incidents/:id', async (req: Request, res: Response) => {
       return;
     }
 
+    const currentSnapshot = await buildSnapshot();
+    if (!currentSnapshot.incidents.some((incident) => incident.id === incidentId)) {
+      res.status(404).json({ error: `Incident ${incidentId} not found.` });
+      return;
+    }
+
     const analyst = String(assignedAnalyst || actor).trim().slice(0, 64) || 'Unassigned';
     await db.upsertIncidentState(incidentId, status, analyst);
 
@@ -194,6 +209,12 @@ apiRouter.post('/incidents/:id/notes', async (req: Request, res: Response) => {
 
     const incidentId = String(req.params.id);
     const { content } = req.body as { content?: string };
+    const currentSnapshot = await buildSnapshot();
+    if (!currentSnapshot.incidents.some((incident) => incident.id === incidentId)) {
+      res.status(404).json({ error: `Incident ${incidentId} not found.` });
+      return;
+    }
+
     const cleanContent = String(content || '').trim().slice(0, 2000);
     if (!cleanContent) {
       res.status(400).json({ error: 'Analyst note content cannot be empty.' });
@@ -239,21 +260,23 @@ apiRouter.put('/settings', async (req: Request, res: Response) => {
 
     const incoming = req.body as Partial<PipelineSettings>;
     const current = await db.getSettings();
+    const requestedWeights = {
+      severity: boundedNumber(incoming.riskWeights?.severity, current.riskWeights.severity, 0, 100),
+      frequency: boundedNumber(incoming.riskWeights?.frequency, current.riskWeights.frequency, 0, 100),
+      blastRadius: boundedNumber(incoming.riskWeights?.blastRadius, current.riskWeights.blastRadius, 0, 100),
+      sourceReputation: boundedNumber(incoming.riskWeights?.sourceReputation, current.riskWeights.sourceReputation, 0, 100),
+      correlationAndMl: boundedNumber(incoming.riskWeights?.correlationAndMl, current.riskWeights.correlationAndMl, 0, 100),
+    };
+    const weightTotal = Object.values(requestedWeights).reduce((sum, weight) => sum + weight, 0);
     const updated: PipelineSettings = {
-      bruteForceThreshold: Math.max(2, Math.min(50, Number(incoming.bruteForceThreshold ?? current.bruteForceThreshold))),
-      bruteForceWindowMin: Math.max(1, Math.min(180, Number(incoming.bruteForceWindowMin ?? current.bruteForceWindowMin))),
-      sprayAccountThreshold: Math.max(2, Math.min(50, Number(incoming.sprayAccountThreshold ?? current.sprayAccountThreshold))),
-      offHoursStartUtc: Math.max(0, Math.min(23, Number(incoming.offHoursStartUtc ?? current.offHoursStartUtc))),
-      offHoursEndUtc: Math.max(0, Math.min(23, Number(incoming.offHoursEndUtc ?? current.offHoursEndUtc))),
-      anomalyScoreThreshold: Math.max(0.4, Math.min(0.85, Number(incoming.anomalyScoreThreshold ?? current.anomalyScoreThreshold))),
-      nEstimators: Math.max(20, Math.min(200, Number(incoming.nEstimators ?? current.nEstimators))),
-      riskWeights: {
-        severity: Number(incoming.riskWeights?.severity ?? current.riskWeights.severity),
-        frequency: Number(incoming.riskWeights?.frequency ?? current.riskWeights.frequency),
-        blastRadius: Number(incoming.riskWeights?.blastRadius ?? current.riskWeights.blastRadius),
-        sourceReputation: Number(incoming.riskWeights?.sourceReputation ?? current.riskWeights.sourceReputation),
-        correlationAndMl: Number(incoming.riskWeights?.correlationAndMl ?? current.riskWeights.correlationAndMl),
-      },
+      bruteForceThreshold: Math.round(boundedNumber(incoming.bruteForceThreshold, current.bruteForceThreshold, 2, 50)),
+      bruteForceWindowMin: Math.round(boundedNumber(incoming.bruteForceWindowMin, current.bruteForceWindowMin, 1, 180)),
+      sprayAccountThreshold: Math.round(boundedNumber(incoming.sprayAccountThreshold, current.sprayAccountThreshold, 2, 50)),
+      offHoursStartUtc: Math.round(boundedNumber(incoming.offHoursStartUtc, current.offHoursStartUtc, 0, 23)),
+      offHoursEndUtc: Math.round(boundedNumber(incoming.offHoursEndUtc, current.offHoursEndUtc, 0, 23)),
+      anomalyScoreThreshold: boundedNumber(incoming.anomalyScoreThreshold, current.anomalyScoreThreshold, 0.4, 0.85),
+      nEstimators: Math.round(boundedNumber(incoming.nEstimators, current.nEstimators, 20, 200)),
+      riskWeights: weightTotal > 0 ? requestedWeights : current.riskWeights,
     };
 
     await db.saveSettings(updated);
