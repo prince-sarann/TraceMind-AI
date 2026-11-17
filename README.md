@@ -141,6 +141,7 @@ TraceMind-AI/
 
 ## Security and data handling
 
+- **Demo authentication only:** analyst names and roles are supplied by client request headers in this learning build. They are not authenticated identities, so role selection is not an authorization boundary. Do not expose this app to untrusted users or use it to protect real incident data without adding server-side authentication, authorization, and deployment hardening.
 - Use synthetic or properly anonymized events for demonstrations.
 - Do not upload real customer logs, credentials, personal information, or production incident data.
 - Keep `.env` and all secret-bearing files out of version control.
